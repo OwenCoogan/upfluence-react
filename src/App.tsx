@@ -1,25 +1,17 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { QueryClientProvider } from 'react-query';
+import TimeGrid from './components/TimeGrid/TimeGrid';
+import { queryClient } from './components/client/queryClient';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <QueryClientProvider client={queryClient}>
+    <div className="bg-red-200">
+      <header>
+        <h2>Test Upfluence React</h2>
       </header>
+      <TimeGrid/>
     </div>
+    </QueryClientProvider>
   );
 }
 

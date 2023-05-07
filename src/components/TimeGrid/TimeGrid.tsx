@@ -1,15 +1,8 @@
-import { useSubscription } from 'react-query-subscription';
-import { eventSource$ } from 'rx-event-source';
-import { sortDataByTimestamp } from '../store/store';
+import DiagramComponent from '../DiagramComponent/DiagramComponent';
 
 export default function TimeGrid(){
   const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   const hours = Array.from(Array(24), (_, i) => `${i+1}am`);
-  const { data, isLoading, error } = useSubscription('getPostStream',()=> eventSource$("https://stream.upfluence.co/stream"));
-  console.log(sortDataByTimestamp(data));
-
-
-  if (isLoading) return <p>Loading...</p>;
 
   return (
     <table
@@ -20,6 +13,9 @@ export default function TimeGrid(){
       >
         <tr
         >
+          <th
+            className="border-collapse border border-gray-400 h-10 w-10"
+          >Hours</th>
           {weekdays.map(day => <th
             className="border-collapse border border-gray-400 h-10 w-10"
           key={day}>{day}</th>)}
@@ -38,6 +34,9 @@ export default function TimeGrid(){
               key={`${day}-${hour}`}
             >
               <p>{`${day}-${hour}`}</p>
+              <DiagramComponent
+                count={0}
+              />
             </td>)}
           </tr>
         ))}

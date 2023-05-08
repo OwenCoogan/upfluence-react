@@ -2,28 +2,55 @@ import React, { useState } from 'react';
 import PostsContext from './PostsContext';
 
 export default function PostsProvider({ children }) {
+  const [previouslyCheckedId , setPreviouslyCheckedId ] = useState(null)
+  const [totalPostCount, setTotalPostCount] = useState(0)
   const [postsByDay, setPostsByDay] = useState({
-    sunday: Array.from({ length: 24 }, () => ([])),
-    monday: Array.from({ length: 24 }, () => ([])),
-    tuesday: Array.from({ length: 24 }, () => ([])),
-    wednesday: Array.from({ length: 24 }, () => ([])),
-    thursday: Array.from({ length: 24 }, () => ([])),
-    friday: Array.from({ length: 24 }, () => ([])),
-    saturday: Array.from({ length: 24 }, () => ([])),
+    sunday: Array.from({ length: 24 }, () => ({
+      postCount:0,
+      posts:[]
+    })),
+    monday: Array.from({ length: 24 }, () => ({
+      postCount:0,
+      posts:[]
+    })),
+    tuesday: Array.from({ length: 24 }, () => ({
+      postCount:0,
+      posts:[]
+    })),
+    wednesday: Array.from({ length: 24 }, () => ({
+      postCount:0,
+      posts:[]
+    })),
+    thursday: Array.from({ length: 24 }, () => ({
+      postCount:0,
+      posts:[]
+    })),
+    friday: Array.from({ length: 24 }, () => ({
+      postCount:0,
+      posts:[]
+    })),
+    saturday: Array.from({ length: 24 }, () => ({
+      postCount:0,
+      posts:[]
+    })),
   });
 
   const value = {
     postsByDay,
+    totalPostCount,
     updatePosts: (newPost) => {
-      console.log(postsByDay);
+      if(newPost.id === previouslyCheckedId){
+        return
+      }
       const postTime = new Date(newPost.timestamp * 1000);
       const postHour = postTime.getHours();
       const postDay = postTime.toLocaleString('en-US', { weekday: 'long' });
       const updatedPostsByDay = { ...postsByDay };
-      console.log(updatedPostsByDay[postDay.toLowerCase()][postHour])
-      updatedPostsByDay[postDay.toLowerCase()][postHour].push(newPost);
+      updatedPostsByDay[postDay.toLowerCase()][postHour].posts.push(newPost);
+      updatedPostsByDay[postDay.toLowerCase()][postHour].postCount =  updatedPostsByDay[postDay.toLowerCase()][postHour].postCount + 1;
       setPostsByDay(updatedPostsByDay);
-      console.log(updatedPostsByDay)
+      setPreviouslyCheckedId(newPost.id)
+      setTotalPostCount(totalPostCount+1)
     },
   };
 

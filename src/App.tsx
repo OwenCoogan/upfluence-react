@@ -7,7 +7,6 @@ import PostsProvider from './components/TimeGrid/Context/PostsProvider';
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <RecoilRoot>
       <div className="bg-gray-200">
         <header>
           <h2>Test Upfluence React</h2>
@@ -16,7 +15,6 @@ function App() {
           <TimeGrid/>
         </PostsProvider>
       </div>
-      </RecoilRoot>
     </QueryClientProvider>
   );
 }

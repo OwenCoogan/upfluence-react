@@ -5,11 +5,10 @@ import { useSubscription } from 'react-query-subscription';
 import { eventSource$ } from 'rx-event-source';
 
 export default function TimeGrid(){
-  const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-  const hours = Array.from(Array(24), (_, i) => `${i+1}am`);
-  const { postsByDay , updatePosts } = useContext(PostsContext);
+  const weekdays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+  const hours = Array.from(Array(24), (_, i) => `${i+1}`);
+  const { postsByDay , updatePosts,totalPostCount } = useContext(PostsContext);
   const { data } = useSubscription('getPostStream',()=> eventSource$("https://stream.upfluence.co/stream"));
-
   function extractPost(newPost){
     if (!newPost) {
       return;
@@ -34,7 +33,7 @@ export default function TimeGrid(){
         >
           <th
             className="border-collapse border border-gray-400 h-10 w-10"
-          >Hours</th>
+          >Total Posts : {totalPostCount}</th>
           {weekdays.map(day => <th
             className="border-collapse border border-gray-400 h-10 w-10"
           key={day}>{day}</th>)}
@@ -47,14 +46,13 @@ export default function TimeGrid(){
           key={hour}>
             <td
               className="h-10 w-10 border-collapse border border-gray-400"
-            >{hour}</td>
+            >{ hour }h</td>
             {weekdays.map(day => <td
               className="h-10 w-10 border-collapse border border-gray-400"
               key={`${day}-${hour}`}
             >
-              <p>{`${day}-${hour}`}</p>
               <DiagramComponent
-                count={0}
+                count={postsByDay[day][hour]?.postCount}
               />
             </td>)}
           </tr>
@@ -63,7 +61,4 @@ export default function TimeGrid(){
     </table>
   );
 };
-function fetch(arg0: string) {
-  throw new Error('Function not implemented.');
-}
 

@@ -2,7 +2,7 @@ import { QueryClientProvider } from 'react-query';
 import TimeGrid from './components/TimeGrid/TimeGrid';
 import { queryClient } from './components/client/queryClient';
 import { RecoilRoot } from 'recoil';
-import PostLoader from './components/store/PostLoader';
+import PostsProvider from './components/TimeGrid/Context/PostsProvider';
 
 function App() {
   return (
@@ -12,8 +12,9 @@ function App() {
         <header>
           <h2>Test Upfluence React</h2>
         </header>
-        <PostLoader/>
-        <TimeGrid/>
+        <PostsProvider>
+          <TimeGrid/>
+        </PostsProvider>
       </div>
       </RecoilRoot>
     </QueryClientProvider>

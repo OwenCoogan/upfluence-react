@@ -1,8 +1,7 @@
 import { QueryClientProvider } from 'react-query';
 import TimeGrid from './components/TimeGrid/TimeGrid';
-import { queryClient } from './components/client/queryClient';
-import { RecoilRoot } from 'recoil';
 import PostsProvider from './components/TimeGrid/Context/PostsProvider';
+import { queryClient } from './client/queryClient';
 
 function App() {
   return (

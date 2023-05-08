@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PostsContext from './PostsContext';
+import { PostsByDay, PostsContextType } from '../../../@types';
 
-export default function PostsProvider({ children }) {
-  const [previouslyCheckedId , setPreviouslyCheckedId ] = useState(null)
+export default function PostsProvider({children}:{children: React.ReactNode}) {
+  const [previouslyCheckedId , setPreviouslyCheckedId ] = useState("")
   const [totalPostCount, setTotalPostCount] = useState(0)
-  const [postsByDay, setPostsByDay] = useState({
+  const [postsByDay, setPostsByDay] = useState<PostsByDay>({
     sunday: Array.from({ length: 24 }, () => ({
       postCount:0,
       posts:[]
@@ -35,7 +36,7 @@ export default function PostsProvider({ children }) {
     })),
   });
 
-  const value = {
+  const value: PostsContextType= {
     postsByDay,
     totalPostCount,
     updatePosts: (newPost) => {
@@ -45,7 +46,7 @@ export default function PostsProvider({ children }) {
       const postTime = new Date(newPost.timestamp * 1000);
       const postHour = postTime.getHours();
       const postDay = postTime.toLocaleString('en-US', { weekday: 'long' });
-      const updatedPostsByDay = { ...postsByDay };
+      const updatedPostsByDay = { ...postsByDay } as PostsByDay;
       updatedPostsByDay[postDay.toLowerCase()][postHour].posts.push(newPost);
       updatedPostsByDay[postDay.toLowerCase()][postHour].postCount =  updatedPostsByDay[postDay.toLowerCase()][postHour].postCount + 1;
       setPostsByDay(updatedPostsByDay);

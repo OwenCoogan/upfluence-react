@@ -1,15 +1,22 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import DiagramComponent from '../DiagramComponent/DiagramComponent';
 import PostsContext from './Context/PostsContext';
 import { useSubscription } from 'react-query-subscription';
 import { eventSource$ } from 'rx-event-source';
+import { Post } from '../../@types';
+import Modal from '../Modal/Modal';
+
+
+
 
 export default function TimeGrid(){
+
   const weekdays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
-  const hours = Array.from(Array(24), (_, i) => `${i+1}`);
-  const { postsByDay , updatePosts,totalPostCount } = useContext(PostsContext);
-  const { data } = useSubscription('getPostStream',()=> eventSource$("https://stream.upfluence.co/stream"));
-  function extractPost(newPost){
+  const hours = Array.from(Array(24), (_, i) => i+1);
+  const [modalIsVisible, setModalIsVisible] = useState(false);
+
+  const { postsByDay, updatePosts ,totalPostCount } = useContext(PostsContext);
+  function extractPost(newPost:any){
     if (!newPost) {
       return;
     }
@@ -18,9 +25,11 @@ export default function TimeGrid(){
       return null;
     }
     if(newPostData){
-      updatePosts(newPostData);
+      updatePosts(newPostData as Post);
     }
   }
+
+  const { data } = useSubscription('getPostStream',()=> eventSource$("https://stream.upfluence.co/stream"));
   extractPost(data)
   return (
     <table
@@ -46,7 +55,7 @@ export default function TimeGrid(){
           key={hour}>
             <td
               className="h-10 w-10 border-collapse border border-gray-400"
-            >{ hour }h</td>
+            >{hour}h</td>
             {weekdays.map(day => <td
               className="h-10 w-10 border-collapse border border-gray-400"
               key={`${day}-${hour}`}

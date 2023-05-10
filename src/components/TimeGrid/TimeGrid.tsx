@@ -31,22 +31,18 @@ export default function TimeGrid(){
             style={{height: 100}}
           key={hour}>
             <td
-              className=" border-collapse border-b border-t-0 border-gray-400"
+              className="p-1 rounded-sm"
             >
               <p
                 className="text-center"
               >{hour}h</p>
             </td>
-            {weekdays.map(day => <td
-              className="border p-1 h-40 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 overflow-auto transition cursor-pointer duration-500 ease hover:bg-gray-300"
-              key={`${day}-${hour}`}
-            >
+            {weekdays.map(day =>
               <DiagramComponent
                 count={postsByDay[day][hour-1]?.postCount}
                 day={day}
                 hour={hour}
-              />
-            </td>)}
+              />)}
           </tr>
         ))}
       </tbody>

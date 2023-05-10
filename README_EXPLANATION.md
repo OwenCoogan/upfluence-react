@@ -42,4 +42,4 @@ https://www.loom.com/share/68072c0471274abf82075233f27d486e
 
 Here is after optimizations on style & display
 
-https://www.loom.com/share/3e014f7e464f4ce79a0d2d67e127e075
+https://www.loom.com/share/937b69dd43734528ab705cf472233ddc

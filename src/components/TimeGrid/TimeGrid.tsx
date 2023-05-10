@@ -1,34 +1,12 @@
 import { useContext } from 'react';
 import DiagramComponent from '../DiagramComponent/DiagramComponent';
 import PostsContext from './Context/PostsContext';
-import { useSubscription } from 'react-query-subscription';
-import { eventSource$ } from 'rx-event-source';
-import { Post } from '../../@types';
-
-
-
 
 export default function TimeGrid(){
 
   const weekdays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
   const hours = Array.from(Array(24), (_, i) => i+1);
-
-  const { postsByDay, updatePosts ,totalPostCount } = useContext(PostsContext);
-  function extractPost(newPost:any){
-    if (!newPost) {
-      return;
-    }
-    const newPostData = Object.values(newPost)[0];
-    if (newPostData === undefined) {
-      return null;
-    }
-    if(newPostData){
-      updatePosts(newPostData as Post);
-    }
-  }
-
-  const { data } = useSubscription('getPostStream',()=> eventSource$("https://stream.upfluence.co/stream"));
-  extractPost(data)
+  const { postsByDay ,totalPostCount } = useContext(PostsContext);
   return (
     <table
       className="border-collapse border border-gray-400 w-full"
@@ -39,27 +17,34 @@ export default function TimeGrid(){
         <tr
         >
           <th
-            className="border-collapse border border-gray-400 h-10 w-10"
+            className="p-2 border-r h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-sm text-xs bg-white border-b-0"
           >Total Posts : {totalPostCount}</th>
           {weekdays.map(day => <th
-            className="border-collapse border border-gray-400 h-10 w-10"
-          key={day}>{day}</th>)}
+            className="p-2 border-r h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-sm text-xs bg-white"
+          key={day}>{day.toUpperCase()}</th>)}
         </tr>
       </thead>
       <tbody>
         {hours.map(hour => (
           <tr
-            className="h-10 border-collapse border border-gray-400"
+            className="p-2 h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-sm text-xs bg-white"
+            style={{height: 100}}
           key={hour}>
             <td
-              className="h-10 w-10 border-collapse border border-gray-400"
-            >{hour}h</td>
+              className=" border-collapse border-b border-t-0 border-gray-400"
+            >
+              <p
+                className="text-center"
+              >{hour}h</p>
+            </td>
             {weekdays.map(day => <td
-              className="h-10 w-10 border-collapse border border-gray-400"
+              className="border p-1 h-40 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 overflow-auto transition cursor-pointer duration-500 ease hover:bg-gray-300"
               key={`${day}-${hour}`}
             >
               <DiagramComponent
                 count={postsByDay[day][hour-1]?.postCount}
+                day={day}
+                hour={hour}
               />
             </td>)}
           </tr>

@@ -38,3 +38,8 @@ Here is a loom video of the first iteration of the interface, I'm getting into s
 
 https://www.loom.com/share/68072c0471274abf82075233f27d486e
 
+
+
+Here is after optimizations on style & display
+
+https://www.loom.com/share/3e014f7e464f4ce79a0d2d67e127e075

@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PostsContext from './PostsContext';
-import { PostsByDay, PostsContextType } from '../../../@types';
+import { Post, PostsByDay, PostsContextType } from '../../../@types';
 
 export default function PostsProvider({children}:{children: React.ReactNode}) {
   const [previouslyCheckedId , setPreviouslyCheckedId ] = useState("")
@@ -29,6 +29,7 @@ export default function PostsProvider({children}:{children: React.ReactNode}) {
     })),
   });
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const value: PostsContextType= {
     postsByDay,
     totalPostCount,
@@ -47,5 +48,29 @@ export default function PostsProvider({children}:{children: React.ReactNode}) {
     },
   };
 
-  return <PostsContext.Provider value={value}>{children}</PostsContext.Provider>;
+
+  useEffect(() => {
+    const eventSource = new EventSource('https://stream.upfluence.co/stream');
+    eventSource.onmessage = (event) => {
+      const newPost = JSON.parse(event.data);
+      console.log(newPost)
+      if (!newPost) {
+        return;
+      }
+      const newPostData = Object.values(newPost)[0];
+      if (newPostData === undefined) {
+        return null;
+      }
+      if(newPostData){
+        value.updatePosts(newPostData as Post)
+      }
+    };
+
+    return () => {
+      eventSource.close();
+    };
+  }, [value]);
+
+
+  return (<PostsContext.Provider value={value}>{children}</PostsContext.Provider>);
 }

@@ -8,31 +8,24 @@ export default function PostsProvider({children}:{children: React.ReactNode}) {
   const [postsByDay, setPostsByDay] = useState<PostsByDay>({
     sunday: Array.from({ length: 24 }, () => ({
       postCount:0,
-      posts:[]
     })),
     monday: Array.from({ length: 24 }, () => ({
       postCount:0,
-      posts:[]
     })),
     tuesday: Array.from({ length: 24 }, () => ({
       postCount:0,
-      posts:[]
     })),
     wednesday: Array.from({ length: 24 }, () => ({
       postCount:0,
-      posts:[]
     })),
     thursday: Array.from({ length: 24 }, () => ({
       postCount:0,
-      posts:[]
     })),
     friday: Array.from({ length: 24 }, () => ({
       postCount:0,
-      posts:[]
     })),
     saturday: Array.from({ length: 24 }, () => ({
       postCount:0,
-      posts:[]
     })),
   });
 
@@ -47,7 +40,6 @@ export default function PostsProvider({children}:{children: React.ReactNode}) {
       const postHour = postTime.getHours();
       const postDay = postTime.toLocaleString('en-US', { weekday: 'long' });
       const updatedPostsByDay = { ...postsByDay } as PostsByDay;
-      updatedPostsByDay[postDay.toLowerCase()][postHour].posts.push(newPost);
       updatedPostsByDay[postDay.toLowerCase()][postHour].postCount =  updatedPostsByDay[postDay.toLowerCase()][postHour].postCount + 1;
       setPostsByDay(updatedPostsByDay);
       setPreviouslyCheckedId(newPost.id)

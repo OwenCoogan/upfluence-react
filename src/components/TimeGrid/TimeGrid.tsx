@@ -1,10 +1,9 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import DiagramComponent from '../DiagramComponent/DiagramComponent';
 import PostsContext from './Context/PostsContext';
 import { useSubscription } from 'react-query-subscription';
 import { eventSource$ } from 'rx-event-source';
 import { Post } from '../../@types';
-import Modal from '../Modal/Modal';
 
 
 
@@ -13,7 +12,6 @@ export default function TimeGrid(){
 
   const weekdays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
   const hours = Array.from(Array(24), (_, i) => i+1);
-  const [modalIsVisible, setModalIsVisible] = useState(false);
 
   const { postsByDay, updatePosts ,totalPostCount } = useContext(PostsContext);
   function extractPost(newPost:any){
@@ -61,7 +59,7 @@ export default function TimeGrid(){
               key={`${day}-${hour}`}
             >
               <DiagramComponent
-                count={postsByDay[day][hour]?.postCount}
+                count={postsByDay[day][hour-1]?.postCount}
               />
             </td>)}
           </tr>

@@ -5,7 +5,6 @@ export type Post = {
 
 export type PostHour = {
   postCount: number;
-  posts: Post[];
 };
 
 export type PostsByDay = {

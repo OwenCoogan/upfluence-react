@@ -42,4 +42,8 @@ https://www.loom.com/share/68072c0471274abf82075233f27d486e
 
 Here is after optimizations on style & display
 
+I fixed the duplicate issue coming from react-query-subscriptions, & removed the storage of posts , as I only need to calculate numbers & not retrieve them ( which , as I have show here, is manageable too ) 
+
+Added animations & a kind of tooltip to view the count as a number on hover on the timeslot. 
+
 https://www.loom.com/share/937b69dd43734528ab705cf472233ddc
